@@ -1,6 +1,8 @@
 #include <vg/path.h>
 #include <bx/allocator.h>
 
+#include <cmath>
+
 namespace vg
 {
 struct Path
@@ -300,8 +302,8 @@ void pathRoundedRect(Path* path, float x, float y, float w, float h, float r)
 	const uint32_t numPointsQuarterCircle = (numPointsHalfCircle >> 1) + 1;
 
 	const float dtheta = -bx::kPiHalf / (float)(numPointsQuarterCircle - 1);
-	const float cos_dtheta = bx::cos(dtheta);
-	const float sin_dtheta = bx::sin(dtheta);
+	const float cos_dtheta = std::cosf(dtheta);
+	const float sin_dtheta = std::sinf(dtheta);
 
 	pathMoveTo(path, x, y + r);
 	pathLineTo(path, x, y + h - r);
@@ -425,8 +427,8 @@ void pathRoundedRectVarying(Path* path, float x, float y, float w, float h, floa
 		const uint32_t numPointsQuarterCircle = (numPointsHalfCircle >> 1) + 1;
 
 		const float dtheta = -bx::kPiHalf / (float)(numPointsQuarterCircle - 1);
-		const float cos_dtheta = bx::cos(dtheta);
-		const float sin_dtheta = bx::sin(dtheta);
+		const float cos_dtheta = std::cosf(dtheta);
+		const float sin_dtheta = std::sinf(dtheta);
 
 		const float cx = x + rtl;
 		const float cy = y + rtl;
@@ -458,8 +460,8 @@ void pathRoundedRectVarying(Path* path, float x, float y, float w, float h, floa
 		const uint32_t numPointsQuarterCircle = (numPointsHalfCircle >> 1) + 1;
 
 		const float dtheta = -bx::kPiHalf / (float)(numPointsQuarterCircle - 1);
-		const float cos_dtheta = bx::cos(dtheta);
-		const float sin_dtheta = bx::sin(dtheta);
+		const float cos_dtheta = std::cosf(dtheta);
+		const float sin_dtheta = std::sinf(dtheta);
 
 		const float cx = x + rbl;
 		const float cy = y + h - rbl;
@@ -491,8 +493,8 @@ void pathRoundedRectVarying(Path* path, float x, float y, float w, float h, floa
 		const uint32_t numPointsQuarterCircle = (numPointsHalfCircle >> 1) + 1;
 
 		const float dtheta = -bx::kPiHalf / (float)(numPointsQuarterCircle - 1);
-		const float cos_dtheta = bx::cos(dtheta);
-		const float sin_dtheta = bx::sin(dtheta);
+		const float cos_dtheta = std::cosf(dtheta);
+		const float sin_dtheta = std::sinf(dtheta);
 
 		const float cx = x + w - rbr;
 		const float cy = y + h - rbr;
@@ -524,8 +526,8 @@ void pathRoundedRectVarying(Path* path, float x, float y, float w, float h, floa
 		const uint32_t numPointsQuarterCircle = (numPointsHalfCircle >> 1) + 1;
 
 		const float dtheta = -bx::kPiHalf / (float)(numPointsQuarterCircle - 1);
-		const float cos_dtheta = bx::cos(dtheta);
-		const float sin_dtheta = bx::sin(dtheta);
+		const float cos_dtheta = std::cosf(dtheta);
+		const float sin_dtheta = std::sinf(dtheta);
 
 		const float cx = x + w - rtr;
 		const float cy = y + rtr;
@@ -565,8 +567,8 @@ void pathCircle(Path* path, float cx, float cy, float r)
 
 	// http://www.iquilezles.org/www/articles/sincos/sincos.htm
 	const float dtheta = -bx::kPi2 / (float)numPoints;
-	const float cos_dtheta = bx::cos(dtheta);
-	const float sin_dtheta = bx::sin(dtheta);
+	const float cos_dtheta = std::cosf(dtheta);
+	const float sin_dtheta = std::sinf(dtheta);
 
 	float ca = 1.0f;
 	float sa = 0.0f;
@@ -600,9 +602,9 @@ void pathEllipse(Path* path, float cx, float cy, float rx, float ry)
 	float* circleVertices = pathAllocVertices(path, numPoints - 1);
 
 	const float dtheta = -bx::kPi2 / (float)numPoints;
-	const float cos_dtheta = bx::cos(dtheta);
-	const float sin_dtheta = bx::sin(dtheta);
-
+	const float cos_dtheta = std::cosf(dtheta);
+	const float sin_dtheta = std::sinf(dtheta);
+    
 	float ca = 1.0f;
 	float sa = 0.0f;
 	for (uint32_t i = 1; i < numPoints; ++i) {
@@ -650,10 +652,10 @@ void pathArc(Path* path, float cx, float cy, float r, float a0, float a1, Windin
 	const uint32_t numPoints = bx::uint32_max(2, (uint32_t)bx::ceil((a1 - a0) / da));
 
 	const float dtheta = (a1 - a0) / (float)numPoints;
-	const float cos_dtheta = bx::cos(dtheta);
-	const float sin_dtheta = bx::sin(dtheta);
-	float ca = bx::cos(a0);
-	float sa = bx::sin(a0);
+	const float cos_dtheta = std::cosf(dtheta);
+	const float sin_dtheta = std::sinf(dtheta);
+	float ca = std::cosf(a0);
+	float sa = std::sinf(a0);
 
 	if (path->m_CurSubPath && path->m_CurSubPath->m_NumVertices != 0) {
 		pathLineTo(path, cx + r * ca, cy + r * sa);
